@@ -1,0 +1,3 @@
+pyloggermanager@ git+https://github.com/coldsofttech/pyloggermanager.git
+pytest~=7.4.0
+setuptools~=69.2.0
