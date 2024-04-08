@@ -43,12 +43,12 @@ class UtilityClass:
             command = f'icacls "{file_name}" /inheritance:r /grant:r "%USERNAME%:F"'
             try:
                 subprocess.run(command, shell=True, check=True)
-            except subprocess.CalledProcessError as e:
+            except subprocess.CalledProcessError:
                 pass
 
         try:
             os.remove(file_name)
-        except (PermissionError, OSError, FileNotFoundError) as e:
+        except (PermissionError, OSError, FileNotFoundError):
             pass
 
     @staticmethod
@@ -78,10 +78,10 @@ class UtilityClass:
                 try:
                     for command in commands:
                         subprocess.run(command, shell=True, check=True)
-                except subprocess.CalledProcessError as e:
+                except subprocess.CalledProcessError:
                     pass
             elif platform.system().lower() == 'linux':
                 try:
                     os.chmod(file_name, 0o400)
-                except (PermissionError, OSError) as e:
+                except (PermissionError, OSError):
                     pass
