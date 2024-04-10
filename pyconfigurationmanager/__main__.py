@@ -141,7 +141,7 @@ class ConfigurationManager:
                 raise OSError(error)
             elif any(perm in permissions_list[0] for perm in ['(F)', '(M)']):
                 raise OSError(error)
-        elif platform.system().lower() == 'linux':
+        elif platform.system().lower() == 'linux' or platform.system().lower() == 'macos':
             file_stat = os.stat(file_path)
             if file_stat.st_mode & 0o777 != 0o400:
                 raise OSError(error)
