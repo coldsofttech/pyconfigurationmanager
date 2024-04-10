@@ -80,7 +80,7 @@ class UtilityClass:
                         subprocess.run(command, shell=True, check=True)
                 except subprocess.CalledProcessError:
                     pass
-            elif platform.system().lower() == 'linux' or platform.system().lower() == 'macos':
+            elif platform.system().lower() == 'linux' or platform.system().lower() == 'darwin':
                 try:
                     os.chmod(file_name, 0o400)
                 except (PermissionError, OSError):
