@@ -112,7 +112,7 @@ jobs:
           latestFile=$(ls -t dist/ | head -n 1)
           echo "Latest file: $latestFile"
           
-          echo "PACKAGE_NAME=$latestFile" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=dist/$latestFile" >> $GITHUB_ENV
 
       - name: Install Package
         run: |
