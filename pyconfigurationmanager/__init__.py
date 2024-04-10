@@ -33,6 +33,6 @@ Python applications. It includes classes and functions for loading configuration
 auditing configuration changes, and ensuring secure access to configuration files.
 """
 __name__ = "pyconfigurationmanager"
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from pyconfigurationmanager.__main__ import ConfigurationManager, ConfigurationManagerError
