@@ -41,8 +41,19 @@ class UtilityClass:
         :return: The IP address of the local machine as a string.
         :rtype: str
         """
-        hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
+        try:
+            hostname = socket.gethostname()
+            ip_address = socket.gethostbyname(hostname)
+            return ip_address
+        except socket.gaierror:
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.connect(('8.8.8.8', 80))
+                ip_address = s.getsockname()[0]
+                s.close()
+            except socket.error:
+                ip_address = '127.0.0.1'
+
         return ip_address
 
     @staticmethod
