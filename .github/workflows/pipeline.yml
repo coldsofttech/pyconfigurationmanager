@@ -37,7 +37,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: lint-report-${{ matrix.python-version }}
+          name: lint-report-${{ matrix.python-version }}-${{ matrix.os }}
           path: flake8-report.json
 
   test:
