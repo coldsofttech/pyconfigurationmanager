@@ -97,6 +97,23 @@ jobs:
         run: |
           python setup.py sdist
 
+      - name: Get Package Name
+        run: |
+          if [ "$(uname)" == "Darwin" ]; then
+              path_separator="/"
+          elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+              path_separator="/"
+          elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+              path_separator="\\"
+          elif [ "$(expr substr $(uname -s) 1 9)" == "CYGWIN_NT" ]; then
+              path_separator="\\"
+          fi
+          
+          latestFile=$(ls -t dist/ | head -n 1)
+          echo "Latest file: $latestFile"
+          
+          echo "PACKAGE_NAME=$latestFile" >> $GITHUB_ENV
+
       - name: Install Package
         run: |
-          pip install dist/*
+          pip install ${{ env.PACKAGE_NAME }}
