@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 from setuptools import setup
-import pyconfigurationmanager
+from src import pyconfigurationmanager
 
 setup(
     name=pyconfigurationmanager.__name__,

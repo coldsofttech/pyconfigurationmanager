@@ -35,4 +35,3 @@ auditing configuration changes, and ensuring secure access to configuration file
 __name__ = "pyconfigurationmanager"
 __version__ = "0.1.2"
 
-from pyconfigurationmanager.__main__ import ConfigurationManager, ConfigurationManagerError

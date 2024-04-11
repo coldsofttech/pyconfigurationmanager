@@ -20,7 +20,7 @@
 
 import pytest
 import unittest
-from pyconfigurationmanager import ConfigurationManager, ConfigurationManagerError
+from src.pyconfigurationmanager import ConfigurationManager, ConfigurationManagerError
 from utilityclass import UtilityClass
 
 

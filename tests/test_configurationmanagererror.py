@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 import unittest
-from pyconfigurationmanager import ConfigurationManagerError
+from src.pyconfigurationmanager import ConfigurationManagerError
 
 
 class TestConfigurationManagerError(unittest.TestCase):
