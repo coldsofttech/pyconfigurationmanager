@@ -97,22 +97,21 @@ jobs:
         run: |
           python setup.py sdist
 
-      - name: Get Package Name
+      - name: Get Package Name (Windows)
+        if: matrix.os == 'windows-latest'
         run: |
-          if [ ${{ matrix.os }} == "windows-latest" ]; then
-              $path_separator = "\\"
-              $latestFile = Get-ChildItem -Path "dist\\" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-              Write-Host "Latest file: $latestFile"
-              Write-Output "PACKAGE_NAME=dist$path_separator$($latestFile.Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
-          else
-              if [ ${{ matrix.os }} == "ubuntu-latest" ] || [ ${{ matrix.os }} == "macos-latest" ]; then
-                  path_separator="/"
-                  latestFile=$(ls -t dist/ | head -n 1)
-                  echo "Latest file: $latestFile"
-                  echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV
-              fi
-          fi
-        shell: bash
+          $path_separator = "\\"
+          $latestFile = Get-ChildItem -Path "dist\\" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+          Write-Host "Latest file: $latestFile"
+          Write-Output "PACKAGE_NAME=dist$path_separator$($latestFile.Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Get Package Name (Ubuntu and macOS)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        run: |
+          path_separator="/"
+          latestFile=$(ls -t dist/ | head -n 1)
+          echo "Latest file: $latestFile"
+          echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV
 
       - name: Install Package
         run: |
