@@ -1,23 +1,3 @@
-# Copyright (c) 2024 coldsofttech
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 import getpass
 import json
 import os.path
@@ -41,8 +21,19 @@ class UtilityClass:
         :return: The IP address of the local machine as a string.
         :rtype: str
         """
-        hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
+        try:
+            hostname = socket.gethostname()
+            ip_address = socket.gethostbyname(hostname)
+            return ip_address
+        except socket.gaierror:
+            try:
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.connect(('8.8.8.8', 80))
+                ip_address = s.getsockname()[0]
+                s.close()
+            except socket.error:
+                ip_address = '127.0.0.1'
+
         return ip_address
 
     @staticmethod
@@ -141,7 +132,7 @@ class ConfigurationManager:
                 raise OSError(error)
             elif any(perm in permissions_list[0] for perm in ['(F)', '(M)']):
                 raise OSError(error)
-        elif platform.system().lower() == 'linux':
+        elif platform.system().lower() == 'linux' or platform.system().lower() == 'darwin':
             file_stat = os.stat(file_path)
             if file_stat.st_mode & 0o777 != 0o400:
                 raise OSError(error)

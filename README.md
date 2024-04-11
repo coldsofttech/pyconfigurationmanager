@@ -4,10 +4,11 @@ The pyconfigurationmanager package provides a set of utilities for managing conf
 ## Installation
 Configuration Manager can be installed using pip:
 ```bash
-pip install git+https://github.com/coldsofttech/pyconfigurationmanager.git
+pip install pyconfigurationmanager
 ```
 
 ## Usage
+
 ````python
 from pyconfigurationmanager import ConfigurationManager
 
