@@ -99,20 +99,16 @@ jobs:
 
       - name: Get Package Name
         run: |
-          if [ "$(uname)" == "Darwin" ]; then
-              path_separator="/"
-          elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-              path_separator="/"
-          elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+          if [ "$MATRIX_OS" == "windows-latest" ]; then
               path_separator="\\"
-          elif [ "$(expr substr $(uname -s) 1 9)" == "CYGWIN_NT" ]; then
-              path_separator="\\"
+          else
+              path_separator="/"
           fi
           
           latestFile=$(ls -t dist/ | head -n 1)
           echo "Latest file: $latestFile"
           
-          echo "PACKAGE_NAME=dist/$latestFile" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV 
 
       - name: Install Package
         run: |
