@@ -10,7 +10,7 @@ pip install git+https://github.com/coldsofttech/pyconfigurationmanager.git
 ## Usage
 
 ````python
-from src.pyconfigurationmanager import ConfigurationManager
+from pyconfigurationmanager import ConfigurationManager
 
 # Load the configuration file
 ConfigurationManager.load_config(file_path='config.json')
