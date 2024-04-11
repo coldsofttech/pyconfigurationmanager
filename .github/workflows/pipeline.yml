@@ -99,19 +99,20 @@ jobs:
 
       - name: Get Package Name
         run: |
-          if [ "$MATRIX_OS" == "windows-latest" ]; then
+          if [ ${{ matrix.os }} == "windows-latest" ]; then
               $path_separator = "\\"
               $latestFile = Get-ChildItem -Path "dist\\" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
               Write-Host "Latest file: $latestFile"
               Write-Output "PACKAGE_NAME=dist$path_separator$($latestFile.Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
           else
-              if [ "$MATRIX_OS" == "ubuntu-latest" ] || [ "$MATRIX_OS" == "macos-latest" ]; then
+              if [ ${{ matrix.os }} == "ubuntu-latest" ] || [ ${{ matrix.os }} == "macos-latest" ]; then
                   path_separator="/"
                   latestFile=$(ls -t dist/ | head -n 1)
                   echo "Latest file: $latestFile"
                   echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV
               fi
           fi
+        shell: bash
 
       - name: Install Package
         run: |
