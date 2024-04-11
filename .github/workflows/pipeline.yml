@@ -76,7 +76,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        python-version: [ '3.10', '3.11', '3.12' ]
+        python-version: [ '3.10' ]
     runs-on: ${{ matrix.os }}
     needs: test
     steps:
@@ -99,11 +99,11 @@ jobs:
 
       - name: Get Package Name
         run: |
-          if [ "$MATRIX_OS" == "windows-latest" ]; then
-              path_separator="\\"
-          else
-              path_separator="/"
-          fi
+          if ($env:MATRIX_OS -eq "windows-latest") {
+              $path_separator = "\\"
+          } else {
+              $path_separator = "/"
+          }
           
           latestFile=$(ls -t dist/ | head -n 1)
           echo "Latest file: $latestFile"
