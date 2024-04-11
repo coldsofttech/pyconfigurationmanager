@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ ubuntu-latest ]
         python-version: [ '3.10' ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -99,16 +99,19 @@ jobs:
 
       - name: Get Package Name
         run: |
-          if ($env:MATRIX_OS -eq "windows-latest") {
+          if [ "$MATRIX_OS" == "windows-latest" ]; then
               $path_separator = "\\"
-          } else {
-              $path_separator = "/"
-          }
-          
-          latestFile=$(ls -t dist/ | head -n 1)
-          echo "Latest file: $latestFile"
-          
-          echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV 
+              $latestFile = Get-ChildItem -Path "dist\\" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+              Write-Host "Latest file: $latestFile"
+              Write-Output "PACKAGE_NAME=dist$path_separator$($latestFile.Name)" | Out-File -FilePath $env:GITHUB_ENV -Append
+          else
+              if [ "$MATRIX_OS" == "ubuntu-latest" ] || [ "$MATRIX_OS" == "macos-latest" ]; then
+                  path_separator="/"
+                  latestFile=$(ls -t dist/ | head -n 1)
+                  echo "Latest file: $latestFile"
+                  echo "PACKAGE_NAME=dist$path_separator$latestFile" >> $GITHUB_ENV
+              fi
+          fi
 
       - name: Install Package
         run: |
