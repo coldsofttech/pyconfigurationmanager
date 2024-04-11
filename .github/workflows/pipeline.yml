@@ -30,7 +30,8 @@ jobs:
           pip install flake8
 
       - name: Run Lint
-        run: flake8 --verbose --color auto --count --statistics --format=json --output-file=flake8-report.json || echo "::set-output name=flake8_failed::true"
+        run: |
+          flake8 --verbose --color auto --count --statistics --format=json --output-file=flake8-report.json
         continue-on-error: true
 
       - name: Upload Report
